@@ -17,8 +17,7 @@ SynthDef(
 	{
 	arg freq = 440, amp = 0.2, pause = 1, sus = 3, out = [0, 1];
 	var env = Env.new(levels: [0.001, 0.001, 1, 1, 0.001], times: [pause, 2, sus, 3], curve: \sine);
-	//var env = Env.linen(2, rrand(2.0, 4.0), 3, amp, \sine);
-		// Nice, simple additive synth stolen from Stanford SC "gentle introduction"
+	// Nice, simple additive synth stolen from Stanford SC "gentle introduction"
 	var snd = Mix.fill(12, {arg counter; // counts iterations starting from zero
 			var partial = counter + 1; // don't start partials from zero
 			SinOsc.ar(partial * freq, mul: 1/partial.squared) * (amp * env.kr(doneAction: 2));});
