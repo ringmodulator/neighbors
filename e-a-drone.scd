@@ -30,7 +30,7 @@ SynthDef(
 
 (
 var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
-var root = e/2;
+var root = e;
 var rootPause = rrand(1.0, 4.0);
 var rootSus = rrand(2.0, 5.0);
 
@@ -38,11 +38,11 @@ var fifth = (2 ** (7/12)) * root; // calculate perfect 5th in equal temperament
 var fifthPause = rrand(1.0, 4.0);
 var fifthSus = rrand(3.0, 5.0);
 
-var octave = root * 4;
+var octave = root;
 var octavePause = rrand(1.0, 4.0);
 var octaveSus = rrand(3.0, 5.0);
 
-var twelfth = fifth * 4;
+var twelfth = fifth;
 var twelfthPause = rrand(1.0, 4.0);
 var twelfthSus = rrand(3.0, 5.0);
 
@@ -87,7 +87,7 @@ Pbind (
 
 (
 var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
-var root = a/2;
+var root = a;
 var rootPause = rrand(1.0, 4.0);
 var rootSus = rrand(2.0, 5.0);
 
@@ -95,11 +95,11 @@ var fifth = (2 ** (7/12)) * root; // calculate perfect 5th in equal temperament
 var fifthPause = rrand(1.0, 4.0);
 var fifthSus = rrand(3.0, 5.0);
 
-var octave = root * 4;
+var octave = root;
 var octavePause = rrand(1.0, 4.0);
 var octaveSus = rrand(3.0, 5.0);
 
-var twelfth = fifth * 4;
+var twelfth = fifth;
 var twelfthPause = rrand(1.0, 4.0);
 var twelfthSus = rrand(3.0, 5.0);
 
