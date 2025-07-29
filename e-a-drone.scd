@@ -26,120 +26,38 @@ SynthDef(
 ).add;
 )
 
-// Play E-B drone
 
 (
+// Lowest versions of these notes on standard tuning guitar in HZ
 var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
-var root = e;
-var rootPause = rrand(1.0, 4.0);
-var rootSus = rrand(2.0, 5.0);
 
-var fifth = (2 ** (7/12)) * root; // calculate perfect 5th in equal temperament
-var fifthPause = rrand(1.0, 4.0);
-var fifthSus = rrand(3.0, 5.0);
+// Function to play a drone with root, fifth, octave, and twelfth; cheated with Copilot to figure this out.
+~playDroneChord = { arg root = 82, out=0;
+    var fifth = (2 ** (7/12)) * root;
+    var octave = root * 2;
+    var twelfth = fifth * 2;
 
-var octave = root * 2;
-var octavePause = rrand(1.0, 4.0);
-var octaveSus = rrand(3.0, 5.0);
+    [
+        [root, rrand(1.0, 4.0), rrand(2.0, 5.0)],
+        [fifth, rrand(1.0, 4.0), rrand(3.0, 5.0)],
+        [octave, rrand(1.0, 4.0), rrand(3.0, 5.0)],
+        [twelfth, rrand(1.0, 4.0), rrand(3.0, 5.0)]
+    ].do { |params|
+        var freq = params[0], pause = params[1], sus = params[2];
+        Pbind(
+            \instrument, "drone",
+            \freq, freq,
+            \pause, pause,
+            \sus, sus,
+            \dur, pause + sus + 5,
+            \out, out
+        ).play;
+    };
+};
 
-var twelfth = fifth * 2;
-var twelfthPause = rrand(1.0, 4.0);
-var twelfthSus = rrand(3.0, 5.0);
-
-Pbind (
-	\instrument, "drone",
-	\freq, root,
-	\pause, rootPause,
-	\sus, rootSus,
-	\dur, rootPause + rootSus + 5,
-	\out, 0
-).play;
-
-Pbind (
-	\instrument, "drone",
-	\freq, fifth,
-	\pause, fifthPause,
-	\sus, fifthSus,
-	\dur, fifthPause + fifthSus + 5,
-	\out, 0
-).play;
-
-Pbind (
-	\instrument, "drone",
-	\freq, octave,
-	\pause, octavePause,
-	\sus, octaveSus,
-	\dur, octavePause + octaveSus + 5,
-	\out, 0
-).play;
-
-Pbind (
-	\instrument, "drone",
-	\freq, twelfth,
-	\pause, twelfthPause,
-	\sus, twelfthSus,
-	\dur, twelfthPause + twelfthSus + 5,
-	\out, 0
-).play;
+~playDroneChord.(82, 0);
+~playDroneChord.(110, 1);
 )
-
-// A-E drone. Obviously it would be better to not just replicate this code...
-
-(
-var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
-var root = a;
-var rootPause = rrand(1.0, 4.0);
-var rootSus = rrand(2.0, 5.0);
-
-var fifth = (2 ** (7/12)) * root; // calculate perfect 5th in equal temperament
-var fifthPause = rrand(1.0, 4.0);
-var fifthSus = rrand(3.0, 5.0);
-
-var octave = root * 2;
-var octavePause = rrand(1.0, 4.0);
-var octaveSus = rrand(3.0, 5.0);
-
-var twelfth = fifth * 2;
-var twelfthPause = rrand(1.0, 4.0);
-var twelfthSus = rrand(3.0, 5.0);
-
-Pbind (
-	\instrument, "drone",
-	\freq, root,
-	\pause, rootPause,
-	\sus, rootSus,
-	\dur, rootPause + rootSus + 5,
-	\out, 1
-).play;
-
-Pbind (
-	\instrument, "drone",
-	\freq, fifth,
-	\pause, fifthPause,
-	\sus, fifthSus,
-	\dur, fifthPause + fifthSus + 5,
-	\out, 1
-).play;
-
-Pbind (
-	\instrument, "drone",
-	\freq, octave,
-	\pause, octavePause,
-	\sus, octaveSus,
-	\dur, octavePause + octaveSus + 5,
-	\out, 1
-).play;
-
-Pbind (
-	\instrument, "drone",
-	\freq, twelfth,
-	\pause, twelfthPause,
-	\sus, twelfthSus,
-	\dur, twelfthPause + twelfthSus + 5,
-	\out, 1
-).play;
-)
-
 
 // Guitar playthrough
 (
