@@ -38,11 +38,11 @@ var fifth = (2 ** (7/12)) * root; // calculate perfect 5th in equal temperament
 var fifthPause = rrand(1.0, 4.0);
 var fifthSus = rrand(3.0, 5.0);
 
-var octave = root;
+var octave = root * 2;
 var octavePause = rrand(1.0, 4.0);
 var octaveSus = rrand(3.0, 5.0);
 
-var twelfth = fifth;
+var twelfth = fifth * 2;
 var twelfthPause = rrand(1.0, 4.0);
 var twelfthSus = rrand(3.0, 5.0);
 
@@ -95,11 +95,11 @@ var fifth = (2 ** (7/12)) * root; // calculate perfect 5th in equal temperament
 var fifthPause = rrand(1.0, 4.0);
 var fifthSus = rrand(3.0, 5.0);
 
-var octave = root;
+var octave = root * 2;
 var octavePause = rrand(1.0, 4.0);
 var octaveSus = rrand(3.0, 5.0);
 
-var twelfth = fifth;
+var twelfth = fifth * 2;
 var twelfthPause = rrand(1.0, 4.0);
 var twelfthSus = rrand(3.0, 5.0);
 
