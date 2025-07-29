@@ -28,9 +28,6 @@ SynthDef(
 
 
 (
-// Lowest versions of these notes on standard tuning guitar in HZ
-var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
-
 // Function to play a drone with root, fifth, octave, and twelfth; cheated with Copilot to figure this out.
 ~playDroneChord = { arg root = 82, out=0;
     var fifth = (2 ** (7/12)) * root;
@@ -54,6 +51,11 @@ var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b =
         ).play;
     };
 };
+)
+
+(
+// Lowest versions of these notes on standard tuning guitar in HZ
+var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
 
 ~playDroneChord.(e, 0);
 ~playDroneChord.(a, 1);
