@@ -55,8 +55,8 @@ var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b =
     };
 };
 
-~playDroneChord.(82, 0);
-~playDroneChord.(110, 1);
+~playDroneChord.(e, 0);
+~playDroneChord.(a, 1);
 )
 
 // Guitar playthrough
