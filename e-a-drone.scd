@@ -46,7 +46,7 @@ SynthDef(
 
 (
 // Function to play a drone with root, fifth, octave, and twelfth; cheated with Copilot to figure this out.
-~playDroneChord = { arg root = 82, out = ~faderBus;
+~playDroneChord = { arg root = 82, out = ~faderBus.index;
     var fifth = (2 ** (7/12)) * root;
     var octave = root * 2;
     var twelfth = fifth * 2;
@@ -64,7 +64,7 @@ SynthDef(
             \pause, pause,
             \sus, sus,
             \dur, pause + sus + 5,
-            \out, out
+			\out, out
         ).play;
     };
 };
@@ -79,6 +79,8 @@ var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b =
 ~playDroneChord.(a, ~faderBus);
 x = Synth("fader");
 )
+
+x.release;
 
 // Guitar playthrough
 (
