@@ -1,5 +1,11 @@
-// Define synths
+s.boot;
+
+// Define synths and buses
+
 (
+// Audio bus for master fader
+~faderBus = Bus.audio(s, 2);
+
 // Guitar playthrough with EQ to help horrible peizo pickup plus reverb
 SynthDef(
 	"audioIn",
@@ -15,7 +21,7 @@ SynthDef(
 SynthDef(
 	"drone",
 	{
-	arg freq = 440, amp = 0.2, pause = 1, sus = 3, out = [0, 1];
+	arg freq = 440, amp = 0.2, pause = 1, sus = 3, out = ~faderBus;
 	var env = Env.new(levels: [0.001, 0.001, 1, 1, 0.001], times: [pause, 2, sus, 3], curve: \sine);
 	// Nice, simple additive synth stolen from Stanford SC "gentle introduction"
 	var snd = Mix.fill(12, {arg counter; // counts iterations starting from zero
@@ -24,12 +30,23 @@ SynthDef(
 		Out.ar(out, snd);
 	}
 ).add;
-)
 
+// Master envelope
+SynthDef(
+	"fader",
+	{
+		arg in = ~faderBus, out = [1, 2], gate = 1;
+		var env, input;
+		env = Env.asr(5, 1.0, 5, curve: 4.0).kr(gate: gate);
+		input = In.ar(in, 2);
+		Out.ar([0, 1], input * env)
+	}
+).add;
+)
 
 (
 // Function to play a drone with root, fifth, octave, and twelfth; cheated with Copilot to figure this out.
-~playDroneChord = { arg root = 82, out=0;
+~playDroneChord = { arg root = 82, out = ~faderBus;
     var fifth = (2 ** (7/12)) * root;
     var octave = root * 2;
     var twelfth = fifth * 2;
@@ -53,11 +70,19 @@ SynthDef(
 };
 )
 
-(// Lowest versions of these notes on standard tuning guitar in HZ
+(
+// Start drones
+// Lowest versions of these notes on standard tuning guitar in HZ
 var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
 
-~playDroneChord.(e, 0);
-~playDroneChord.(a, 1);)
+~playDroneChord.(e);
+~playDroneChord.(a);
+ // x = Synth("fader");
+)
+
+// End drones
+
+
 
 // Guitar playthrough
 (
