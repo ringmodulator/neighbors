@@ -6,7 +6,7 @@ SynthDef(
 	{
 	var in = SoundIn.ar(0);
 	var lowPass = LPF.ar(in: in, freq: 1500, mul: 3);
-	var reverb = FreeVerb.ar(in: lowPass, mix: 0.33, room: 0.7, damp: 0.5);
+	var reverb = FreeVerb.ar(in: lowPass, mix: 0.4, room: 0.9, damp: 0.5);
 	Out.ar ([0, 1], reverb).softclip;
 	}
 ).add;
@@ -53,13 +53,11 @@ SynthDef(
 };
 )
 
-(
-// Lowest versions of these notes on standard tuning guitar in HZ
+(// Lowest versions of these notes on standard tuning guitar in HZ
 var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
 
 ~playDroneChord.(e, 0);
-~playDroneChord.(a, 1);
-)
+~playDroneChord.(a, 1);)
 
 // Guitar playthrough
 (
