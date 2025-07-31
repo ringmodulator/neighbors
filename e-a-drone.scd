@@ -75,8 +75,8 @@ SynthDef(
 // Lowest versions of these notes on standard tuning guitar in HZ
 var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
 
-~playDroneChord.(e, ~faderBus);
-~playDroneChord.(a, ~faderBus);
+~playDroneChord.(e, ~faderBus.index);
+~playDroneChord.(a, ~faderBus.index);
 x = Synth("fader");
 )
 
