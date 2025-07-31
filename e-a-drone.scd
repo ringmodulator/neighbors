@@ -35,7 +35,7 @@ SynthDef(
 SynthDef(
 	"fader",
 	{
-		arg in = ~faderBus, out = [1, 2], gate = 1;
+		arg in = ~faderBus.index, out = [1, 2], gate = 1;
 		var env, input;
 		env = Env.asr(5, 1.0, 5, curve: 4.0).kr(gate: gate);
 		input = In.ar(in, 2);
@@ -46,7 +46,7 @@ SynthDef(
 
 (
 // Function to play a drone with root, fifth, octave, and twelfth; cheated with Copilot to figure this out.
-~playDroneChord = { arg root = 82, out = ~faderBus.index;
+~playDroneChord = { arg root = 82, out = ~faderBus;
     var fifth = (2 ** (7/12)) * root;
     var octave = root * 2;
     var twelfth = fifth * 2;
@@ -75,8 +75,8 @@ SynthDef(
 // Lowest versions of these notes on standard tuning guitar in HZ
 var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
 
-~playDroneChord.(e, ~faderBus.index);
-~playDroneChord.(a, ~faderBus.index);
+~playDroneChord.(e, ~faderBus);
+~playDroneChord.(a, ~faderBus);
 x = Synth("fader");
 )
 
