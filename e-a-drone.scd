@@ -1,7 +1,6 @@
 s.boot;
 
 // Define synths and buses
-
 (
 // Audio bus for master fader
 ~faderBus = Bus.audio(s, 2);
@@ -21,7 +20,7 @@ SynthDef(
 SynthDef(
 	"drone",
 	{
-	arg freq = 440, amp = 0.2, pause = 1, sus = 3, out = ~faderBus;
+	arg freq = 440, amp = 0.2, pause = 1, sus = 3, out = [~faderBus.index, ~faderBus.index + 1];
 	var env = Env.new(levels: [0.001, 0.001, 1, 1, 0.001], times: [pause, 2, sus, 3], curve: \sine);
 	// Nice, simple additive synth stolen from Stanford SC "gentle introduction"
 	var snd = Mix.fill(12, {arg counter; // counts iterations starting from zero
@@ -35,7 +34,7 @@ SynthDef(
 SynthDef(
 	"fader",
 	{
-		arg in = ~faderBus.index, out = [1, 2], gate = 1;
+		arg in = [~faderBus.index, ~faderBus.index + 1], gate = 1;
 		var env, input;
 		env = Env.asr(5, 1.0, 5, curve: 4.0).kr(gate: gate);
 		input = In.ar(in, 2);
@@ -46,7 +45,8 @@ SynthDef(
 
 (
 // Function to play a drone with root, fifth, octave, and twelfth; cheated with Copilot to figure this out.
-~playDroneChord = { arg root = 82, out = ~faderBus;
+~playDroneChord = {
+	arg root = 82, out = [~faderBus.index, ~faderBus.index + 1];
     var fifth = (2 ** (7/12)) * root;
     var octave = root * 2;
     var twelfth = fifth * 2;
@@ -75,9 +75,9 @@ SynthDef(
 // Lowest versions of these notes on standard tuning guitar in HZ
 var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
 
-~playDroneChord.(e, ~faderBus);
-~playDroneChord.(a, ~faderBus);
-x = Synth("fader");
+~playDroneChord.(e, ~faderBus.index);
+~playDroneChord.(a, ~faderBus.index + 1);
+x = Synth("fader", [~faderBus.index, ~faderBus.index + 1]);
 )
 
 x.release;
