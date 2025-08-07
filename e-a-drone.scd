@@ -18,9 +18,9 @@ SynthDef(
 
 // Drone instrument
 SynthDef(
-	"drone",
+	\drone,
 	{
-	arg freq = 440, amp = 0.2, pause = 1, sus = 3, out = [~faderBus.index, ~faderBus.index + 1];
+	arg out = 0, freq = 440, amp = 0.2, pause = 1, sus = 3;
 	var env = Env.new(levels: [0.001, 0.001, 1, 1, 0.001], times: [pause, 2, sus, 3], curve: \sine);
 	// Nice, simple additive synth stolen from Stanford SC "gentle introduction"
 	var snd = Mix.fill(12, {arg counter; // counts iterations starting from zero
@@ -32,9 +32,9 @@ SynthDef(
 
 // Master envelope
 SynthDef(
-	"fader",
+	\fader,
 	{
-		arg in = ~faderBus.index, gate = 1;
+		arg in = 0, gate = 1;
 		var env, input;
 		env = Env.asr(5, 1.0, 5, curve: 4.0).kr(gate: gate);
 		input = In.ar(in, 2);
@@ -46,7 +46,7 @@ SynthDef(
 (
 // Function to play a drone with root, fifth, octave, and twelfth; cheated with Copilot to figure this out.
 ~playDroneChord = {
-	arg root = 82, out = ~faderBus.index;
+	arg out = 0, root = 82;
     var fifth = (2 ** (7/12)) * root;
     var octave = root * 2;
     var twelfth = fifth * 2;
@@ -59,12 +59,12 @@ SynthDef(
     ].do { |params|
         var freq = params[0], pause = params[1], sus = params[2];
         Pbind(
-            \instrument, "drone",
+            \instrument, \drone,
+			\out, ~faderBus,
             \freq, freq,
             \pause, pause,
             \sus, sus,
-            \dur, pause + sus + 5,
-			\out, out
+            \dur, pause + sus + 5
         ).play;
     };
 };
@@ -75,11 +75,16 @@ SynthDef(
 // Lowest versions of these notes on standard tuning guitar in HZ
 var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
 
-~playDroneChord.(e, ~faderBus.index);
-~playDroneChord.(a, ~faderBus.index + 1);
-x = Synth("fader", ~faderBus.index);
+~playDroneChord.(~faderBus, e);
+~playDroneChord.(~faderBus, a);
+
+x = Synth.new(\fader, [
+	\in, ~faderBus,
+	\gate, 1
+]);
 )
 
+// End drone
 x.release;
 
 // Guitar playthrough
