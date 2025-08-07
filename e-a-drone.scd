@@ -60,7 +60,7 @@ SynthDef(
         var freq = params[0], pause = params[1], sus = params[2];
         Pbind(
             \instrument, \drone,
-			\out, ~faderBus,
+			\out, out,
             \freq, freq,
             \pause, pause,
             \sus, sus,
