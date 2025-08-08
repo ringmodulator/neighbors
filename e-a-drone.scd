@@ -20,12 +20,14 @@ SynthDef(
 SynthDef(
 	\drone,
 	{
-	arg out = 0, freq = 440, amp = 0.2, pause = 1, sus = 3;
+	arg out = 0, freq = 440, amp = 0.2, pause = 1, sus = 3, pan = 1;
 	var env = Env.new(levels: [0.001, 0.001, 1, 1, 0.001], times: [pause, 2, sus, 3], curve: \sine);
 	// Nice, simple additive synth stolen from Stanford SC "gentle introduction"
-	var snd = Mix.fill(12, {arg counter; // counts iterations starting from zero
+	var snd = Mix.fill(12, {
+			arg counter; // counts iterations starting from zero
 			var partial = counter + 1; // don't start partials from zero
 			SinOsc.ar(partial * freq, mul: 1/partial.squared) * (amp * env.kr(doneAction: 2));});
+		snd = Pan2.ar(snd, SinOsc.kr(pan));
 		Out.ar(out, snd);
 	}
 ).add;
@@ -51,19 +53,20 @@ SynthDef(
     var twelfth = fifth * 2;
 
     [
-        [root, rrand(1.0, 4.0), rrand(2.0, 5.0)],
-        [fifth, rrand(1.0, 4.0), rrand(3.0, 5.0)],
-        [octave, rrand(1.0, 4.0), rrand(3.0, 5.0)],
-        [twelfth, rrand(1.0, 4.0), rrand(3.0, 5.0)]
+		[root, rrand(1.0, 4.0), rrand(2.0, 5.0), rrand(0.1, 0.5)],
+        [fifth, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
+        [octave, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
+        [twelfth, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)]
     ].do { |params|
-        var freq = params[0], pause = params[1], sus = params[2];
+        var freq = params[0], pause = params[1], sus = params[2], pan = params[3];
         Pbind(
             \instrument, \drone,
 			\out, out,
             \freq, freq,
             \pause, pause,
             \sus, sus,
-            \dur, pause + sus + 5
+            \dur, pause + sus + 5,
+			\pan, pan
         ).play;
     };
 };
