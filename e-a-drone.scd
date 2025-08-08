@@ -41,7 +41,6 @@ SynthDef(
 		Out.ar([0, 1], input * env)
 	}
 ).add;
-)
 
 (
 // Function to play a drone with root, fifth, octave, and twelfth; cheated with Copilot to figure this out.
@@ -68,6 +67,7 @@ SynthDef(
         ).play;
     };
 };
+)
 )
 
 (
