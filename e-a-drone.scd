@@ -97,3 +97,8 @@ x.release;
 (
 Synth("audioIn");
 )
+
+// Play boiler sound
+(
+~boiler.play;
+)
