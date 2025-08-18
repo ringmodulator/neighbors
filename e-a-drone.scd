@@ -5,6 +5,9 @@ s.boot;
 // Audio bus for master fader
 ~faderBus = Bus.audio(s, 2);
 
+// Load boiler sound into buffer
+~boiler = Buffer.read(s, "/Users/aaron/Dropbox/Music Recordings/SuperCollider/neighbors/boiler.wav");
+
 // Guitar playthrough with EQ to help horrible peizo pickup plus reverb
 SynthDef(
 	"audioIn",
@@ -93,4 +96,9 @@ x.release;
 // Guitar playthrough
 (
 Synth("audioIn");
+)
+
+// Play boiler sound
+(
+~boiler.play;
 )
