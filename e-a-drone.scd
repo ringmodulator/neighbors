@@ -8,6 +8,14 @@ s.boot;
 // Load boiler sound into buffer
 ~boiler = Buffer.read(s, "/Users/aaron/Dropbox/Music Recordings/SuperCollider/neighbors/boiler.wav");
 
+// Boiler playback
+SynthDef.new(\boiler, {
+	arg amp = 1, out = 0, buf, rate = 1, da = 2;
+	var sig;
+	sig = PlayBuf.ar(2, buf, BufRateScale.kr(buf) * rate, doneAction:da) * amp;
+	Out.ar(out, sig);
+}).add;
+
 // Guitar playthrough with EQ to help horrible peizo pickup plus reverb
 SynthDef(
 	"audioIn",
@@ -100,5 +108,5 @@ Synth("audioIn");
 
 // Play boiler sound
 (
-~boiler.play;
+Synth.new(\boiler, [\buf, ~boiler.bufnum, \rate, 0.25, \amp, 0.5]);
 )
