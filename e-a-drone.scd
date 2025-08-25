@@ -56,7 +56,7 @@ SynthDef(
     var twelfth = fifth * 2;
 
     [
-		[root, rrand(1.0, 4.0), rrand(2.0, 5.0), rrand(0.1, 0.5)],
+		[root, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
         [fifth, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
         [octave, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
         [twelfth, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)]
