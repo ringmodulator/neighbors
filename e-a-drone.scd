@@ -31,13 +31,13 @@ SynthDef(
 SynthDef(
 	\drone,
 	{
-	arg out = 0, freq = 440, amp = 0.2, pause = 1, sus = 3, pan = 1;
-	var env = Env.new(levels: [0.001, 0.001, 1, 1, 0.001], times: [pause, 2, sus, 3], curve: \sine);
-	// Nice, simple additive synth stolen from Stanford SC "gentle introduction"
+	arg out = 0, freq = 440, amp = 0.1, pause = 1, sus = 3, pan = 1;
+	var env = Env.new(levels: [0.001, 0.001, 1, 1, 0.001], times: [pause, 4, sus, 4], curve: \sine);
+	// Nice, simple additive synth stolen from Stanford SC "gentle introduction" and modified a bit
 	var snd = Mix.fill(12, {
 			arg counter; // counts iterations starting from zero
 			var partial = counter + 1; // don't start partials from zero
-			SinOsc.ar(partial * freq, mul: 1/partial.squared) * (amp * env.kr(doneAction: 2));});
+			SinOsc.ar(partial * freq * rrand(0.999, 1.001), mul: 1/partial.squared) * (amp * env.kr(doneAction: 2));});
 		snd = Pan2.ar(snd, SinOsc.kr(pan));
 		Out.ar(out, snd);
 	}
@@ -49,7 +49,7 @@ SynthDef(
 	{
 		arg in = 0, gate = 1;
 		var env, input;
-		env = Env.asr(5, 1.0, 5, curve: 4.0).kr(gate: gate);
+		env = Env.asr(20, 1.0, 20, curve: 4.0).kr(gate: gate);
 		input = In.ar(in, 2);
 		Out.ar([0, 1], input * env)
 	}
@@ -64,10 +64,10 @@ SynthDef(
     var twelfth = fifth * 2;
 
     [
-		[root, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
-        [fifth, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
-        [octave, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
-        [twelfth, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)]
+		[root, rrand(1.0, 5.0), rrand(4.0, 8.0), rrand(0.1, 0.5)],
+        [fifth, rrand(1.0, 5.0), rrand(4.0, 8.0), rrand(0.1, 0.5)],
+        [octave, rrand(1.0, 5.0), rrand(4.0, 8.0), rrand(0.1, 0.5)],
+        [twelfth, rrand(1.0, 5.0), rrand(4.0, 8.0), rrand(0.1, 0.5)]
     ].do { |params|
         var freq = params[0], pause = params[1], sus = params[2], pan = params[3];
         Pbind(
@@ -76,7 +76,7 @@ SynthDef(
             \freq, freq,
             \pause, pause,
             \sus, sus,
-            \dur, pause + sus + 5,
+            \dur, pause + sus + 8,
 			\pan, pan
         ).play;
     };
@@ -90,6 +90,8 @@ SynthDef(
 var e = 82, f = 87, fSharp = 46, g = 98, gSharp = 104, a = 110, aSharp = 58, b = 62, c = 131, cSharp = 139, d = 147, dSharp = 156;
 
 ~playDroneChord.(~faderBus, e);
+~playDroneChord.(~faderBus, e);
+~playDroneChord.(~faderBus, a);
 ~playDroneChord.(~faderBus, a);
 
 x = Synth.new(\fader, [
