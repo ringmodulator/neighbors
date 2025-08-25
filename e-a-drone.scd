@@ -5,6 +5,17 @@ s.boot;
 // Audio bus for master fader
 ~faderBus = Bus.audio(s, 2);
 
+// Load boiler sound into buffer
+~boiler = Buffer.read(s, "/Users/aaron/Dropbox/Music Recordings/SuperCollider/neighbors/boiler.wav");
+
+// Boiler playback
+SynthDef.new(\boiler, {
+	arg amp = 1, out = 0, buf, rate = 1, da = 2;
+	var sig;
+	sig = PlayBuf.ar(2, buf, BufRateScale.kr(buf) * rate, doneAction:da) * amp;
+	Out.ar(out, sig);
+}).add;
+
 // Guitar playthrough with EQ to help horrible peizo pickup plus reverb
 SynthDef(
 	"audioIn",
@@ -53,7 +64,7 @@ SynthDef(
     var twelfth = fifth * 2;
 
     [
-		[root, rrand(1.0, 4.0), rrand(2.0, 5.0), rrand(0.1, 0.5)],
+		[root, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
         [fifth, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
         [octave, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)],
         [twelfth, rrand(1.0, 4.0), rrand(3.0, 5.0), rrand(0.1, 0.5)]
@@ -93,4 +104,9 @@ x.release;
 // Guitar playthrough
 (
 Synth("audioIn");
+)
+
+// Play boiler sound
+(
+Synth.new(\boiler, [\buf, ~boiler.bufnum, \rate, 0.25, \amp, 0.5]);
 )
